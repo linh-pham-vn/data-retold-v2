@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dear Habits — 2026</title>
+<style>
+:root{
+  --bg:#F7F5F0;
+  --ink:#111110;
+  --grey:#8C8880;
+  --line:#DEDBD3;
+  --tint:#EDEAE2;
+  --learn:#C8452C;
+  --project:#1F5F55;
+  --activity:#D9A420;
+  --mono:"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--ink);
+  background:var(--bg);-webkit-font-smoothing:antialiased;letter-spacing:.01em;
+}
+button,input{font-family:var(--mono);color:var(--ink);letter-spacing:.01em}
+::selection{background:var(--ink);color:var(--bg)}
+.page{max-width:1240px;margin:0 auto;padding:0 24px 110px}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.grey{color:var(--grey)}
+
+/* ---------- top bar ---------- */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 22px;gap:16px;flex-wrap:wrap}
+.mark{
+  width:26px;height:26px;border-radius:50%;border:1px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex:none;
+}
+.pills{display:flex;gap:7px;flex-wrap:wrap}
+.pill{
+  border:1px solid var(--line);border-radius:999px;background:none;cursor:pointer;
+  padding:5px 13px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+}
+.pill:hover{border-color:var(--ink)}
+.pill.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ---------- masthead ---------- */
+.hero{
+  font-size:clamp(21px,3.35vw,40px);line-height:1.24;letter-spacing:.005em;
+  text-transform:uppercase;margin:6px 0 30px;max-width:1100px;
+}
+.hero i{font-style:normal;color:var(--grey)}
+
+/* ---------- habit cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card .tile{
+  aspect-ratio:16/11;max-height:300px;display:flex;align-items:center;padding:0 22px;
+  color:rgba(255,255,255,.94);font-size:clamp(13px,1.5vw,19px);line-height:1.2;
+  text-transform:uppercase;letter-spacing:.02em;
+}
+.card .cap{display:flex;gap:14px;justify-content:space-between;margin-top:9px;font-size:10px;line-height:1.5}
+.card .cap .l{color:var(--grey);flex:none}
+.card .cap .r{text-align:right;color:var(--ink)}
+.card .cap .r b{display:block;color:var(--grey);font-weight:400;margin-top:3px}
+
+/* ---------- numbered stats ---------- */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 34px}
+.nums .n{font-size:10px;color:var(--grey);margin-bottom:5px}
+.nums .v{font-size:22px;line-height:1.1;margin-bottom:3px}
+.nums .t{font-size:10px;color:var(--grey);line-height:1.5;max-width:210px}
+
+/* ---------- day editor ---------- */
+.editor{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px 34px}
+.lab{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);margin-bottom:9px}
+.big{font-size:clamp(17px,2vw,25px);line-height:1.2;text-transform:uppercase}
+.meta{font-size:10px;color:var(--grey);margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+.opt{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;
+  background:none;border:none;border-bottom:1px solid var(--line);padding:8px 2px;
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+}
+.opt:hover{background:var(--tint)}
+.opt.sel{background:var(--ink);color:var(--bg);border-bottom-color:var(--ink)}
+.sq{width:9px;height:9px;flex:none;border-radius:50%}
+.note{
+  width:100%;background:none;border:none;border-bottom:1px solid var(--ink);
+  padding:9px 2px;font-size:11px;margin:14px 0 12px;
+}
+.note:focus{outline:none}
+.note::placeholder{color:var(--grey);letter-spacing:.1em;text-transform:uppercase;font-size:9.5px}
+.dark{
+  background:var(--ink);color:var(--bg);border:1px solid var(--ink);border-radius:999px;cursor:pointer;
+  padding:7px 16px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+}
+.dark:hover{background:#000}
+.ent{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line);font-size:10.5px}
+.ent .tx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ent .x{background:none;border:none;cursor:pointer;color:var(--grey);font-size:12px;padding:0 2px;line-height:1}
+.ent .x:hover{color:var(--learn)}
+
+/* ---------- calendar ---------- */
+.chead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.chead h2{font-size:clamp(17px,2vw,25px);margin:0;text-transform:uppercase;font-weight:400;line-height:1.2}
+.search{
+  background:none;border:none;border-bottom:1px solid var(--line);padding:6px 2px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;width:250px;max-width:100%;
+}
+.search:focus{outline:none;border-bottom-color:var(--ink)}
+.search::placeholder{color:var(--grey)}
+.grid{display:grid;grid-template-columns:64px repeat(7,1fr);border-top:1px solid var(--line)}
+.wd{
+  position:sticky;top:0;z-index:2;background:var(--bg);
+  font-size:9px;letter-spacing:.18em;color:var(--grey);text-align:center;
+  padding:8px 0;border-bottom:1px solid var(--line);
+}
+.mo{
+  font-size:9px;letter-spacing:.16em;color:var(--grey);text-transform:uppercase;
+  display:flex;align-items:center;padding-left:2px;height:24px;border-bottom:1px solid var(--line);
+}
+.mo.ms{color:var(--ink)}
+.day{
+  height:24px;background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;
+  display:flex;align-items:center;gap:6px;padding:0 8px;width:100%;
+  font-size:10px;text-align:left;color:var(--grey);
+}
+.day:hover{background:var(--tint);box-shadow:inset 0 0 0 1px var(--ink)}
+.day .dn{width:16px;text-align:right;flex:none}
+.day.first{color:var(--ink)}
+.day .mn{font-size:8.5px;letter-spacing:.1em;flex:none}
+.day.out{cursor:default;color:#C9C5BC}
+.day.out:hover{background:none;box-shadow:none}
+.day.today{background:var(--tint);color:var(--ink)}
+.day.today .dn{font-weight:700}
+.day.sel,.day.sel:hover{box-shadow:inset 0 0 0 2px var(--ink)}
+.day.dim{opacity:.3}
+
+/* ---------- graph ---------- */
+.padwrap{border:1px solid var(--line);background:#FBFAF7}
+canvas#pad{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
+.toolbar{display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.tset{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.tset .lab{margin:0 4px 0 0}
+.sw{width:17px;height:17px;border-radius:50%;border:1px solid rgba(0,0,0,.16);cursor:pointer;padding:0}
+.sw.on{outline:1px solid var(--ink);outline-offset:2px}
+input[type=range]{width:96px;accent-color:var(--ink)}
+input[type=color]{width:22px;height:20px;padding:0;border:1px solid var(--line);background:none;cursor:pointer;border-radius:50%}
+
+/* ---------- data ---------- */
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 20px}
+.wk canvas{display:block;width:100%;height:auto;background:#FBFAF7;border:1px solid var(--line)}
+.wk .t{font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-top:9px;line-height:1.45}
+.wk .d{font-size:9.5px;color:var(--grey);letter-spacing:.1em;margin-top:2px}
+.wk .a{display:flex;gap:12px;margin-top:7px}
+.wk .a button{background:none;border:none;padding:0;cursor:pointer;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.wk .a button:hover{color:var(--ink)}
+.wk .c{display:flex;gap:9px;margin-top:7px;align-items:center;font-size:9.5px;color:var(--grey)}
+.wk .c span{display:flex;align-items:center;gap:4px}
+.sec{display:none}
+.sec.on{display:block}
+.note-sm{font-size:10px;color:var(--grey);line-height:1.6;max-width:520px}
+.warn{
+  display:none;border:1px solid var(--learn);color:var(--learn);
+  padding:9px 13px;margin:14px 0 0;font-size:10px;letter-spacing:.06em;line-height:1.6;
+}
+.warn.on{display:block}
+
+@media (max-width:900px){
+  .cards,.nums,.editor{grid-template-columns:1fr 1fr}
+  .weeks{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .cards,.nums,.editor,.weeks{grid-template-columns:1fr}
+  .grid{grid-template-columns:44px repeat(7,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="bar">
+    <div class="mark">✳</div>
+    <nav class="pills">
+      <button class="pill on" data-sec="cal">Calendar</button>
+      <button class="pill" data-sec="graph">Graph</button>
+      <button class="pill" data-sec="data">Data</button>
+      <button class="pill" id="btnExport">Export</button>
+      <button class="pill" id="btnImport">Import</button>
+      <input type="file" id="fileIn" accept="application/json" style="display:none">
+    </nav>
+  </div>
+
+  <div class="warn" id="warn"></div>
+
+  <h1 class="hero">
+    I am an operation system analyst.
+    <i>And here is the data of my habit in the drawing.</i>
+  </h1>
+
+  <hr>
+
+  <!-- ================= CALENDAR ================= -->
+  <section class="sec on" id="sec-cal">
+    <div class="cards" id="cards"></div>
+    <hr>
+    <div class="nums" id="nums"></div>
+    <hr>
+    <div class="editor" id="editor"></div>
+    <hr>
+    <div class="chead">
+      <h2>The year 2026 — fifty three weeks</h2>
+      <input class="search" id="q" placeholder="Search your marks">
+    </div>
+    <div class="pills" id="filters" style="margin-bottom:18px"></div>
+    <div id="year"></div>
+  </section>
+
+  <!-- ================= GRAPH ================= -->
+  <section class="sec" id="sec-graph">
+    <div class="chead">
+      <h2 id="wkTitle">A week of habits</h2>
+      <span class="grey" id="wkRange"></span>
+    </div>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="padwrap"><canvas id="pad"></canvas></div>
+    <p class="note-sm" style="margin-top:16px">
+      One mark for one thing done — no rules, that is the point. Every stroke is kept as you draw,
+      and the canvas files itself into DATA each Sunday at eleven at night.
+    </p>
+  </section>
+
+  <!-- ================= DATA ================= -->
+  <section class="sec" id="sec-data">
+    <div class="chead">
+      <h2>The archive</h2>
+      <span class="grey" id="dataMeta"></span>
+    </div>
+    <div class="weeks" id="weeks"></div>
+    <hr>
+    <p class="note-sm">
+      Everything lives in this browser only. Use EXPORT above now and then, and IMPORT to restore
+      it or carry it to another machine.
+    </p>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   DEAR HABITS 2026
+   ============================================================ */
+const HABITS = [
+  {id:'learn',    label:'Learn something new', short:'Learn',    color:'#C8452C',
+   blurb:'Anything that leaves you knowing a thing you did not know this morning.'},
+  {id:'project',  label:'Do a new project',    short:'Project',  color:'#1F5F55',
+   blurb:'Something built, finished or started that did not exist before.'},
+  {id:'activity', label:'Create an activity',  short:'Activity', color:'#D9A420',
+   blurb:'A thing made to be done — by you, with others, out in the world.'}
+];
+const HMAP  = Object.fromEntries(HABITS.map(h=>[h.id,h]));
+const YEAR  = 2026;
+const KEY   = 'dearhabits.2026.v1';
+const PAPER = '#FBFAF7';
+const PALETTE = ['#C8452C','#1F5F55','#D9A420','#111110','#6B3F7A','#2B5A93',
+                 '#4E7C46','#B24A72','#E2703A','#0F6B62','#9A6218','#7A776F',
+                 '#D9A9A0','#8FAF95'];
+
+let state = { version:1, entries:{}, strokes:[], periodStart:null, archive:[] };
+let selectedDate = null, filter = 'all', query = '', draftType = HABITS[0].id;
+
+/* ---------------- storage ---------------- */
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const p = JSON.parse(raw);
+      state = Object.assign(state, p);
+      state.entries = state.entries || {};
+      state.strokes = state.strokes || [];
+      state.archive = state.archive || [];
+    }
+  }catch(e){
+    console.warn('could not read save', e);
+    noStore('This browser is blocking local storage for files opened from disk.');
+  }
+}
+let canStore = true;
+function warn(msg){
+  const el = document.getElementById('warn');
+  el.textContent = msg; el.classList.add('on');
+}
+function noStore(why){
+  if(!canStore) return;
+  canStore = false;
+  warn(why+' Nothing you add will survive a refresh. Open index.html in Google Chrome '+
+       '(right-click the file → Open With → Google Chrome), or run a local server, and it will save normally.');
+}
+let saveTimer = null;
+function save(){
+  if(!canStore) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch(e){
+      noStore(e && e.name === 'QuotaExceededError'
+        ? 'This browser’s storage is full.'
+        : 'This browser is blocking local storage for files opened from disk.');
+    }
+  }, 120);
+}
+
+/* ---------------- dates ---------------- */
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const MLONG  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WDAYS  = ['M','T','W','T','F','S','S'];
+const DNAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const addDays = (d,n)=>{ const x=new Date(d); x.setDate(x.getDate()+n); return x; };
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function periodStartFor(d){
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 0, 0, 0);
+  x.setDate(x.getDate() - x.getDay());
+  if(x.getTime() > d.getTime()) x.setDate(x.getDate()-7);
+  return x;
+}
+function periodDays(startISO){
+  const s = new Date(startISO);
+  return { mon: addDays(s,1), sun: addDays(s,7) };
+}
+function isoWeek(d){
+  const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  t.setDate(t.getDate() + 3 - ((t.getDay()+6)%7));
+  const first = new Date(t.getFullYear(),0,4);
+  return 1 + Math.round(((t-first)/86400000 - 3 + ((first.getDay()+6)%7))/7);
+}
+function fmtRange(startISO){
+  const {mon,sun} = periodDays(startISO);
+  return MONTHS[mon.getMonth()]+' '+mon.getDate()+' — '+MONTHS[sun.getMonth()]+' '+sun.getDate()+', '+sun.getFullYear();
+}
+
+/* ---------------- rollover ---------------- */
+function pushArchive(startISO, strokes){
+  state.archive.unshift({
+    id:'w'+Date.now()+Math.random().toString(36).slice(2,6),
+    periodStart:startISO, savedAt:new Date().toISOString(),
+    strokes: JSON.parse(JSON.stringify(strokes))
+  });
+}
+function checkRollover(){
+  const now = new Date(), cur = periodStartFor(now);
+  if(!state.periodStart){ state.periodStart = cur.toISOString(); save(); return; }
+  const stored = new Date(state.periodStart);
+  if(cur.getTime() > stored.getTime()){
+    if(state.strokes.length) pushArchive(state.periodStart, state.strokes);
+    state.periodStart = cur.toISOString();
+    state.strokes = [];
+    save();
+  }
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function stats(){
+  let total=0, days=0, strokes=0;
+  const per = {learn:0, project:0, activity:0};
+  for(const k in state.entries){
+    if(!k.startsWith(YEAR+'-')) continue;
+    const l = state.entries[k];
+    if(l.length){ days++; total += l.length; }
+    for(const e of l) if(per[e.type]!==undefined) per[e.type]++;
+  }
+  for(const w of state.archive) strokes += w.strokes.length;
+  strokes += state.strokes.length;
+
+  let streak=0, d=new Date();
+  while(state.entries[iso(d)] && state.entries[iso(d)].length){ streak++; d=addDays(d,-1); }
+
+  const keys = Object.keys(state.entries).filter(k=>state.entries[k].length).sort();
+  let best=0, run=0, prev=null;
+  for(const k of keys){
+    const cd = new Date(k+'T00:00:00');
+    run = (prev && (cd - prev)===86400000) ? run+1 : 1;
+    if(run>best) best=run;
+    prev = cd;
+  }
+  return {total, days, streak, best, per, strokes};
+}
+
+/* ============================================================
+   CALENDAR
+   ============================================================ */
+const elYear = document.getElementById('year');
+
+function buildCards(){
+  const s = stats();
+  document.getElementById('cards').innerHTML = HABITS.map((h,i)=>
+    '<div class="card">'+
+      '<div class="tile" style="background:'+h.color+'">'+h.label+'</div>'+
+      '<div class="cap"><span class="l">'+String.fromCharCode(65+i)+'</span>'+
+      '<span class="r">'+h.blurb+'<b>'+s.per[h.id]+' marks so far</b></span></div>'+
+    '</div>').join('');
+}
+function buildNums(){
+  const s = stats();
+  const rows = [
+    ['01', s.total,             'Marks made across the year so far.'],
+    ['02', s.days,              'Days of 2026 that carry at least one mark.'],
+    ['03', s.streak,            'Days in a row, counting back from today.'],
+    ['04', s.best,              'The longest run you have managed yet.'],
+    ['05', state.archive.length,'Weekly drawings filed into the archive.'],
+    ['06', s.strokes,           'Strokes drawn by hand, kept and counted.']
+  ];
+  document.getElementById('nums').innerHTML = rows.map(r=>
+    '<div><div class="n">'+r[0]+'</div><div class="v">'+r[1]+'</div><div class="t">'+r[2]+'</div></div>').join('');
+}
+
+function buildYear(){
+  const start = new Date(YEAR,0,1);
+  start.setDate(start.getDate() - ((start.getDay()+6)%7));
+  const todayISO = iso(new Date());
+  let g = '<div class="grid"><div class="wd"></div>' + WDAYS.map(w=>'<div class="wd">'+w+'</div>').join('');
+  for(let wk=0; wk<53; wk++){
+    const rowStart = addDays(start, wk*7);
+    let mlabel='', ms=false;
+    for(let i=0;i<7;i++){
+      const d = addDays(rowStart,i);
+      if(d.getDate()===1 && d.getFullYear()===YEAR){ mlabel = MONTHS[d.getMonth()]; ms = true; }
+    }
+    g += '<div class="mo'+(ms?' ms':'')+'">'+mlabel+'</div>';
+    for(let i=0;i<7;i++){
+      const d = addDays(rowStart,i), key = iso(d), out = d.getFullYear()!==YEAR;
+      const cls = ['day'];
+      if(out) cls.push('out');
+      if(d.getDate()===1) cls.push('first');
+      if(key===todayISO) cls.push('today');
+      g += '<button class="'+cls.join(' ')+'" data-d="'+key+'"'+(out?' disabled':'')+'>'+
+             '<span class="dn">'+d.getDate()+'</span>'+
+             (d.getDate()===1 && !out ? '<span class="mn">'+MONTHS[d.getMonth()]+'</span>' : '')+
+           '</button>';
+    }
+  }
+  elYear.innerHTML = g + '</div>';
+  elYear.querySelectorAll('.day:not(.out)').forEach(el=>
+    el.addEventListener('click', ()=> openDay(el.dataset.d)));
+  paintMarks();
+}
+
+function fits(e){
+  if(filter!=='all' && e.type!==filter) return false;
+  if(!query) return true;
+  return (e.note||'').toLowerCase().includes(query) || (HMAP[e.type]||{label:''}).label.toLowerCase().includes(query);
+}
+/* a day is filled with the colour of each habit kept that day —
+   whole cell for one, half and half for two, thirds for all three */
+function dayFill(types){
+  const cs = types.map(t=>HMAP[t].color);
+  if(cs.length===1) return cs[0];
+  const step = 100/cs.length;
+  return 'linear-gradient(90deg,'+cs.map((c,i)=>
+    c+' '+(i*step).toFixed(3)+'% '+((i+1)*step).toFixed(3)+'%').join(',')+')';
+}
+/* keep the date legible against whichever colour sits under it */
+function textOn(hex){
+  const n = parseInt(hex.slice(1),16);
+  const lin = c => (c/255)<=0.03928 ? (c/255)/12.92 : Math.pow(((c/255)+0.055)/1.055, 2.4);
+  const L = 0.2126*lin(n>>16&255) + 0.7152*lin(n>>8&255) + 0.0722*lin(n&255);
+  return L > 0.30 ? 'var(--ink)' : 'var(--bg)';
+}
+function paintMarks(){
+  document.querySelectorAll('.day[data-d]').forEach(cell=>{
+    const key  = cell.dataset.d;
+    const all  = state.entries[key] || [];
+    const list = all.filter(fits);
+    const types = HABITS.map(h=>h.id).filter(id => list.some(e=>e.type===id));
+    cell.classList.toggle('dim', (filter!=='all'||!!query) && all.length>0 && !types.length);
+    cell.classList.toggle('sel', key === selectedDate);
+    if(types.length){
+      cell.style.background = dayFill(types);
+      cell.style.color = textOn(HMAP[types[0]].color);
+    }else{
+      cell.style.background = '';
+      cell.style.color = '';
+    }
+  });
+}
+function buildFilters(){
+  const items = [{id:'all',short:'Everything'}].concat(HABITS);
+  document.getElementById('filters').innerHTML = items.map(h=>
+    '<button class="pill'+(filter===h.id?' on':'')+'" data-f="'+h.id+'">'+h.short+'</button>').join('');
+  document.querySelectorAll('#filters .pill').forEach(b=>
+    b.addEventListener('click', ()=>{ filter=b.dataset.f; buildFilters(); paintMarks(); }));
+}
+
+/* ---------------- day editor ---------------- */
+const elEditor = document.getElementById('editor');
+
+function openDay(key){
+  selectedDate = key; draftType = HABITS[0].id;
+  paintMarks(); renderEditor();
+  const f = document.getElementById('note'); if(f) f.focus();
+}
+function renderEditor(){
+  if(!selectedDate){
+    elEditor.innerHTML =
+      '<div><div class="lab">The day</div><div class="big">No day chosen</div>'+
+      '<div class="meta">Pick one from the year below</div></div>'+
+      '<div><div class="lab">How it works</div><p class="note-sm">Every line below is one week of 2026. '+
+      'Click a day, choose which of the three promises you kept, and a coloured dot lands on the year.</p></div>'+
+      '<div><div class="lab">Today</div><button class="dark" id="goToday">Go to today</button></div>';
+    const g = document.getElementById('goToday');
+    if(g) g.addEventListener('click', ()=>{
+      const t = document.querySelector('.day.today');
+      if(t){ openDay(t.dataset.d); t.scrollIntoView({block:'center', behavior:'smooth'}); }
+    });
+    return;
+  }
+  const [y,m,dd] = selectedDate.split('-').map(Number);
+  const d = new Date(y,m-1,dd);
+  const list = state.entries[selectedDate] || [];
+  elEditor.innerHTML =
+    '<div><div class="lab">The day</div>'+
+      '<div class="big">'+MLONG[m-1]+' '+dd+'</div>'+
+      '<div class="meta">'+DNAMES[d.getDay()]+' · Week '+isoWeek(d)+' of '+y+'</div></div>'+
+    '<div><div class="lab">Log a mark</div>'+
+      HABITS.map(h=>'<button class="opt'+(h.id===draftType?' sel':'')+'" data-h="'+h.id+'">'+
+        '<span class="sq" style="background:'+h.color+'"></span>'+h.label+'</button>').join('')+
+      '<input class="note" id="note" maxlength="120" placeholder="What did you do? (optional)">'+
+      '<button class="dark" id="addMark">Add mark</button></div>'+
+    '<div><div class="lab">Logged — '+list.length+'</div>'+
+      (list.length ? list.map(e=>{
+        const h = HMAP[e.type]||{label:'?',color:'#999'};
+        return '<div class="ent"><span class="sq" style="background:'+h.color+'"></span>'+
+               '<span class="tx">'+esc(e.note || h.label)+'</span>'+
+               '<button class="x" data-x="'+e.id+'" title="remove">×</button></div>';
+      }).join('') : '<p class="note-sm">Nothing here yet.</p>')+
+    '</div>';
+
+  elEditor.querySelectorAll('.opt').forEach(b=>
+    b.addEventListener('click', ()=>{ draftType=b.dataset.h; renderEditor(); document.getElementById('note').focus(); }));
+  elEditor.querySelector('#addMark').addEventListener('click', addMark);
+  elEditor.querySelector('#note').addEventListener('keydown', e=>{ if(e.key==='Enter') addMark(); });
+  elEditor.querySelectorAll('.x').forEach(b=>
+    b.addEventListener('click', ()=>{
+      state.entries[selectedDate] = (state.entries[selectedDate]||[]).filter(x=>x.id!==b.dataset.x);
+      if(!state.entries[selectedDate].length) delete state.entries[selectedDate];
+      save(); refreshAll();
+    }));
+}
+function addMark(){
+  if(!selectedDate) return;
+  (state.entries[selectedDate] = state.entries[selectedDate] || []).push({
+    id:'e'+Date.now()+Math.random().toString(36).slice(2,6),
+    type:draftType, note:document.getElementById('note').value.trim(), ts:new Date().toISOString()
+  });
+  save(); refreshAll();
+  const f = document.getElementById('note'); if(f) f.focus();
+}
+function refreshAll(){ buildCards(); buildNums(); renderEditor(); paintMarks(); }
+
+document.getElementById('q').addEventListener('input', e=>{
+  query = e.target.value.trim().toLowerCase(); paintMarks();
+});
+
+/* ============================================================
+   GRAPH
+   ============================================================ */
+const W = 1120, H = 620, DPR = 2;
+const pad = document.getElementById('pad');
+const ctx = pad.getContext('2d');
+pad.width = W*DPR; pad.height = H*DPR;
+
+let tool='pen', color='#C8452C', size=4, drawing=false, cur=null;
+const TOOLS = ['pen','pencil','crayon','marker','eraser'];
+
+function mulberry(seed){
+  let t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    let r = Math.imul(t ^ (t>>>15), 1|t);
+    r ^= r + Math.imul(r ^ (r>>>7), 61|r);
+    return ((r ^ (r>>>14)) >>> 0) / 4294967296;
+  };
+}
+function line(c,a,b,k){ c.beginPath(); c.moveTo(a.x*k,a.y*k); c.lineTo(b.x*k,b.y*k); c.stroke(); }
+function drawSegment(c, s, i, k){
+  const p0 = s.points[i-1], p1 = s.points[i];
+  if(!p0 || !p1) return;
+  const rand = mulberry((s.seed|0) + i*7919);
+  c.save(); c.lineCap='round'; c.lineJoin='round';
+  if(s.tool === 'eraser'){
+    c.globalCompositeOperation='destination-out'; c.strokeStyle='rgba(0,0,0,1)';
+    c.lineWidth = s.size*2.4*k; line(c,p0,p1,k);
+  } else if(s.tool === 'pencil'){
+    c.strokeStyle=s.color; c.globalAlpha=0.30; c.lineWidth=Math.max(0.6,s.size*0.42)*k;
+    for(let p=0;p<3;p++){
+      const j=s.size*0.42;
+      line(c,{x:p0.x+(rand()-.5)*j,y:p0.y+(rand()-.5)*j},{x:p1.x+(rand()-.5)*j,y:p1.y+(rand()-.5)*j},k);
+    }
+  } else if(s.tool === 'crayon'){
+    c.strokeStyle=s.color; c.globalAlpha=0.68; c.lineWidth=s.size*1.1*k; line(c,p0,p1,k);
+    c.globalAlpha=0.22;
+    for(let p=0;p<2;p++){
+      const j=s.size*0.55; c.lineWidth=s.size*(0.5+rand()*0.5)*k;
+      line(c,{x:p0.x+(rand()-.5)*j,y:p0.y+(rand()-.5)*j},{x:p1.x+(rand()-.5)*j,y:p1.y+(rand()-.5)*j},k);
+    }
+    c.fillStyle=s.color;
+    const n=Math.max(2,Math.round(s.size*0.7));
+    for(let p=0;p<n;p++){
+      const t=rand();
+      const x=(p0.x+(p1.x-p0.x)*t+(rand()-.5)*s.size*1.5)*k;
+      const y=(p0.y+(p1.y-p0.y)*t+(rand()-.5)*s.size*1.5)*k;
+      c.globalAlpha=0.10+rand()*0.28;
+      c.fillRect(x,y,(0.5+rand()*1.1)*k,(0.5+rand()*1.1)*k);
+    }
+  } else if(s.tool === 'marker'){
+    c.strokeStyle=s.color; c.globalAlpha=0.32; c.lineWidth=s.size*1.9*k; line(c,p0,p1,k);
+  } else {
+    c.strokeStyle=s.color; c.globalAlpha=0.94; c.lineWidth=Math.max(0.8,s.size*0.85)*k; line(c,p0,p1,k);
+  }
+  c.restore();
+}
+function renderAll(c, strokes, k, w, h){
+  c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,w,h);
+  for(const s of strokes) for(let i=1;i<s.points.length;i++) drawSegment(c,s,i,k);
+}
+function redraw(){ renderAll(ctx, state.strokes, DPR, pad.width, pad.height); }
+
+function posOf(e){
+  const r = pad.getBoundingClientRect();
+  return { x:(e.clientX-r.left)/r.width*W, y:(e.clientY-r.top)/r.height*H };
+}
+pad.addEventListener('pointerdown', e=>{
+  e.preventDefault(); pad.setPointerCapture(e.pointerId); drawing=true;
+  cur = { tool, color, size, seed:(Math.random()*1e9)|0, points:[posOf(e)] };
+  const p = cur.points[0];
+  cur.points.push({x:p.x+0.01,y:p.y+0.01});
+  drawSegment(ctx, cur, 1, DPR);
+});
+pad.addEventListener('pointermove', e=>{
+  if(!drawing) return;
+  const p = posOf(e), last = cur.points[cur.points.length-1];
+  if(Math.hypot(p.x-last.x, p.y-last.y) < 1.1) return;
+  cur.points.push(p);
+  drawSegment(ctx, cur, cur.points.length-1, DPR);
+});
+function endStroke(){
+  if(!drawing) return;
+  drawing = false;
+  if(cur && cur.points.length){ state.strokes.push(cur); save(); buildNums(); }
+  cur = null;
+}
+pad.addEventListener('pointerup', endStroke);
+pad.addEventListener('pointercancel', endStroke);
+window.addEventListener('pointerup', endStroke);
+
+function buildToolbar(){
+  document.getElementById('toolbar').innerHTML =
+    '<div class="tset"><span class="lab">Tool</span>'+
+      TOOLS.map(t=>'<button class="pill'+(t===tool?' on':'')+'" data-t="'+t+'">'+t+'</button>').join('')+
+    '</div>'+
+    '<div class="tset"><span class="lab">Colour</span>'+
+      PALETTE.map(c=>'<button class="sw'+(c===color?' on':'')+'" style="background:'+c+'" data-c="'+c+'"></button>').join('')+
+      '<input type="color" id="custom" value="'+(/^#[0-9a-f]{6}$/i.test(color)?color:'#C8452C')+'">'+
+    '</div>'+
+    '<div class="tset"><span class="lab">Size</span>'+
+      '<input type="range" id="sz" min="1" max="30" value="'+size+'"><span class="grey" id="szN">'+size+'</span></div>'+
+    '<div class="tset">'+
+      '<button class="pill" id="btnUndo">Undo</button>'+
+      '<button class="pill" id="btnClear">Clear</button>'+
+      '<button class="pill" id="btnArchive">Save week → data</button></div>';
+
+  const tb = document.getElementById('toolbar');
+  tb.querySelectorAll('[data-t]').forEach(b=> b.addEventListener('click', ()=>{ tool=b.dataset.t; buildToolbar(); }));
+  tb.querySelectorAll('[data-c]').forEach(b=> b.addEventListener('click', ()=>{ color=b.dataset.c; buildToolbar(); }));
+  tb.querySelector('#custom').addEventListener('input', e=>{
+    color = e.target.value;
+    tb.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));
+  });
+  tb.querySelector('#sz').addEventListener('input', e=>{
+    size = +e.target.value; tb.querySelector('#szN').textContent = size;
+  });
+  tb.querySelector('#btnUndo').addEventListener('click', ()=>{ state.strokes.pop(); save(); redraw(); buildNums(); });
+  tb.querySelector('#btnClear').addEventListener('click', ()=>{
+    if(!state.strokes.length) return;
+    if(confirm('Clear the whole canvas? This week’s drawing is not archived.')){
+      state.strokes=[]; save(); redraw(); buildNums();
+    }
+  });
+  tb.querySelector('#btnArchive').addEventListener('click', ()=>{
+    if(!state.strokes.length){ alert('Nothing drawn yet this week.'); return; }
+    if(!confirm('Save this week to the archive and start a fresh canvas?')) return;
+    pushArchive(state.periodStart, state.strokes);
+    state.strokes=[]; save(); redraw(); buildData(); buildNums();
+  });
+
+  const {mon} = periodDays(state.periodStart);
+  document.getElementById('wkTitle').textContent = 'Week '+isoWeek(mon)+' — a week of habits';
+  document.getElementById('wkRange').textContent = fmtRange(state.periodStart);
+}
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const elWeeks = document.getElementById('weeks');
+
+function weekCounts(startISO){
+  const {mon} = periodDays(startISO);
+  const c = {learn:0, project:0, activity:0};
+  for(let i=0;i<7;i++)
+    for(const e of (state.entries[iso(addDays(mon,i))] || [])) if(c[e.type]!==undefined) c[e.type]++;
+  return c;
+}
+function buildData(){
+  document.getElementById('dataMeta').textContent =
+    state.archive.length ? state.archive.length+(state.archive.length===1?' week kept':' weeks kept') : '';
+  if(!state.archive.length){
+    elWeeks.innerHTML = '<p class="note-sm">No weeks saved yet. Draw on the GRAPH page — the canvas files itself here every Sunday at eleven at night.</p>';
+    return;
+  }
+  const sorted = state.archive.slice().sort((a,b)=> new Date(b.periodStart) - new Date(a.periodStart));
+  elWeeks.innerHTML = sorted.map(w=>{
+    const {mon} = periodDays(w.periodStart), c = weekCounts(w.periodStart);
+    return '<div class="wk"><canvas data-w="'+w.id+'"></canvas>'+
+      '<div class="t">Week '+isoWeek(mon)+' — a week of habits</div>'+
+      '<div class="d">'+fmtRange(w.periodStart)+'</div>'+
+      '<div class="c">'+HABITS.map(h=>'<span><i class="sq" style="background:'+h.color+';display:inline-block;border-radius:50%"></i>'+c[h.id]+'</span>').join('')+
+        '<span style="margin-left:auto">'+w.strokes.length+' strokes</span></div>'+
+      '<div class="a"><button data-png="'+w.id+'">Png</button><button data-del="'+w.id+'">Delete</button></div>'+
+    '</div>';
+  }).join('');
+
+  elWeeks.querySelectorAll('canvas[data-w]').forEach(cv=>{
+    const w = state.archive.find(x=>x.id===cv.dataset.w);
+    cv.width = W; cv.height = H;
+    renderAll(cv.getContext('2d'), w.strokes, 1, cv.width, cv.height);
+  });
+  elWeeks.querySelectorAll('[data-del]').forEach(b=>
+    b.addEventListener('click', ()=>{
+      if(!confirm('Delete this saved week for good?')) return;
+      state.archive = state.archive.filter(x=>x.id!==b.dataset.del);
+      save(); buildData(); buildNums();
+    }));
+  elWeeks.querySelectorAll('[data-png]').forEach(b=>
+    b.addEventListener('click', ()=>{
+      const w = state.archive.find(x=>x.id===b.dataset.png);
+      const {mon} = periodDays(w.periodStart);
+      const off = document.createElement('canvas');
+      off.width = W*2; off.height = H*2;
+      const c = off.getContext('2d');
+      c.fillStyle = PAPER; c.fillRect(0,0,off.width,off.height);
+      for(const s of w.strokes) for(let i=1;i<s.points.length;i++) drawSegment(c,s,i,2);
+      const a = document.createElement('a');
+      a.download = 'dear-habits-week-'+isoWeek(mon)+'-'+iso(mon)+'.png';
+      a.href = off.toDataURL('image/png'); a.click();
+    }));
+}
+
+/* ---------------- backup ---------------- */
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dear-habits-backup-'+iso(new Date())+'.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+});
+document.getElementById('btnImport').addEventListener('click', ()=> document.getElementById('fileIn').click());
+document.getElementById('fileIn').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const p = JSON.parse(r.result);
+      if(!p || typeof p!=='object' || !('entries' in p)) throw new Error('not a backup file');
+      if(!confirm('Replace everything currently in this tracker with the backup?')) return;
+      state = Object.assign({version:1, entries:{}, strokes:[], periodStart:null, archive:[]}, p);
+      selectedDate = null;
+      save(); checkRollover(); buildYear(); refreshAll(); buildToolbar(); redraw(); buildData();
+    }catch(err){ alert('Could not read that file: '+err.message); }
+  };
+  r.readAsText(f);
+  e.target.value = '';
+});
+
+/* ============================================================
+   NAV + BOOT
+   ============================================================ */
+document.querySelectorAll('.pill[data-sec]').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.pill[data-sec]').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById('sec-'+t.dataset.sec).classList.add('on');
+    window.scrollTo({top:0});
+    if(t.dataset.sec==='graph'){ redraw(); buildToolbar(); }
+    if(t.dataset.sec==='data') buildData();
+  });
+});
+
+load();
+checkRollover();
+buildYear();
+buildFilters();
+refreshAll();
+buildToolbar();
+redraw();
+buildData();
+
+setInterval(()=>{
+  const before = state.periodStart;
+  checkRollover();
+  if(before !== state.periodStart){ redraw(); buildToolbar(); buildData(); buildNums(); }
+}, 60000);
+</script>
+</body>
+</html>
